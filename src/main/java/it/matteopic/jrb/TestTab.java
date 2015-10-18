@@ -121,16 +121,35 @@ public class TestTab extends RegexpPanel {
     }
 
     private AttributeSet getAttributeForGroup(int groupIndex){
+    	// http://www.materialdesigncolors.com/?ckattempt=1
         Color[]colors = new Color[]{
-                new Color(128,192,255), new Color(255,240,0), new Color(240,64,0), Color.GRAY,
-                Color.GREEN, Color.MAGENTA};
-        
+                new Color(0x8bc34a), //Light Green 
+                new Color(0xffeb3b), //Yellow
+                new Color(0xffc107), //Amber
+                new Color(0xff5722), //Deep Orange
+                new Color(0xe91e63), //Pink
+                new Color(0x259b24), //Green
+                new Color(0xcddc39), //Lime
+                new Color(0xff9800), //Orange
+                new Color(0xe51c23), //Red
+                new Color(0x9c27b0), //Purple
+                new Color(0xffeb3b), //Indigo
+                new Color(0x03a9f4), //Light Blue
+                new Color(0x00bcd4), //Cyan
+                new Color(0x9e9e9e), //Grey
+                new Color(0x607d8b), //Blue Grey
+                new Color(0x673ab7), //Deep Purple
+                new Color(0x5677fc), //Blue
+                new Color(0x009688), //Teal
+                new Color(0x795548), //Brown
+                //new Color(0x212121), //Text Black     	
+        };
         int colorIndex = groupIndex % colors.length;
         
         SimpleAttributeSet sas = new SimpleAttributeSet();
         sas.addAttribute(StyleConstants.FontConstants.Bold, Boolean.FALSE);
         sas.addAttribute(StyleConstants.ColorConstants.Background, colors[colorIndex]);
-        sas.addAttribute(StyleConstants.ColorConstants.Foreground, Color.BLACK);
+        sas.addAttribute(StyleConstants.ColorConstants.Foreground, new Color(0x212121));
         return sas;
     }
 
