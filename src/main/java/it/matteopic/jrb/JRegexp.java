@@ -32,6 +32,7 @@ public class JRegexp extends JFrame {
 
     private static final long serialVersionUID = 3257852086443390261L;
     public JRegexp() {
+    	String version = getClass().getPackage().getImplementationVersion();
         setTitle("JRegexp 0.3.1");
 //        manager = new RegexpManager();
 
@@ -197,10 +198,6 @@ public class JRegexp extends JFrame {
         return checks;
     }
 
-    public static void main(String[] args) {
-        new JRegexp();
-    }
-
     private class CheckboxListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             tabbed.setCanonEq(canonEq.getModel().isSelected());
@@ -216,6 +213,10 @@ public class JRegexp extends JFrame {
             tabbed.setUseAnchoringBounds(useAnchoringBounds.getModel().isSelected());
             fireRegexpChanged();
         }
+    }
+
+    public static void main(String[] args) {
+        new JRegexp();
     }
     
     private Tabs tabbed;

@@ -5,8 +5,11 @@
  */
 package it.matteopic.jrb;
 
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -62,6 +65,25 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
                 }
             }
         });
+        
+        textPane.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar() == ' ' && e.isControlDown()){
+					try{
+						JTextPane tp = (JTextPane)e.getComponent();
+						int dot = tp.getCaret().getDot();
+						int lineHeight = tp.getFontMetrics(tp.getFont()).getHeight();
+			            Rectangle caretCoords = tp.modelToView(dot);
+						show(tp, (int)caretCoords.getX(), (int)caretCoords.getY() + lineHeight);
+					}catch(BadLocationException ignroed){}	
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {}
+			@Override
+			public void keyPressed(KeyEvent e) {}
+		});
         
         sp.install(tp, false);
     }
@@ -225,7 +247,7 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
                     } catch (BadLocationException e1) {}
             	}
             }
-            //Se non è presente il placeholder del cursore, lo aggiungo nel punto in cui si trova
+            //Se non ÔøΩ presente il placeholder del cursore, lo aggiungo nel punto in cui si trova
             else{
             	 try {
                      doc.insertString(pos, insert, null);
