@@ -33,7 +33,7 @@ public class JRegexp extends JFrame {
     private static final long serialVersionUID = 3257852086443390261L;
     public JRegexp() {
     	String version = getClass().getPackage().getImplementationVersion();
-        setTitle("JRegexp 0.3.1");
+        setTitle("JRegexp " + version);
 //        manager = new RegexpManager();
 
         SwingUtilities.invokeLater(new Runnable(){
@@ -54,7 +54,7 @@ public class JRegexp extends JFrame {
         
         //RegexpEditor
         regexpEditor = new JTextPane();
-        regexpEditor.setText("[a-z]{4,}");
+        regexpEditor.setText("([A-Z])\\w+");
         regexpEditor.getDocument().addDocumentListener(new DocumentListener(){
             public void insertUpdate(DocumentEvent e) { fireRegexpChanged(); }
             public void removeUpdate(DocumentEvent e) { fireRegexpChanged(); }
@@ -183,7 +183,6 @@ public class JRegexp extends JFrame {
         Insets defaultInsets = constr.insets;
 
         unix = new JCheckBox("Unix lines");
-        unix.getModel().setEnabled(false);
         unix.setToolTipText(
         		"<html>Se abilitato viene considerato come terminatore<br>" +
         		"di riga solamente il carattere \\n</html>");
@@ -206,11 +205,11 @@ public class JRegexp extends JFrame {
             tabbed.setMultiline(multiline.getModel().isSelected());
             tabbed.setUnicodeCase(unicodeCase.getModel().isSelected());
             tabbed.setUnixLine(
-                    unix.getModel().isEnabled() &&
-                    unix.getModel().isSelected()
+                    unix.isEnabled() &&
+                    unix.isSelected()
                     );
             tabbed.setAllowComments(comments.getModel().isSelected());
-            tabbed.setUseAnchoringBounds(useAnchoringBounds.getModel().isSelected());
+            tabbed.setUseAnchoringBounds(useAnchoringBounds.isSelected());
             fireRegexpChanged();
         }
     }

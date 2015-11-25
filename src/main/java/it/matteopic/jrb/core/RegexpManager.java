@@ -78,40 +78,17 @@ public class RegexpManager {
         pattern = Pattern.compile(regexp, flags);
     }
 
-    public List<Match> process(String textToTest) {
-        // char[]chars = textToTest.toCharArray();
-        // StringBuffer sb = new StringBuffer();
-        // for (int i = 0; i < chars.length; i++) {
-        // sb.append((int)(chars[i]));
-        // }
-        // System.out.println(sb);
-
+    public Matcher startMatching(String textToTest){
         if (pattern == null)
             throw new NullPointerException("Regexp mancante");
 
         matcher = pattern.matcher(textToTest);
-        if (matcher == null)
-            return Collections.emptyList();
         matcher.useAnchoringBounds(useAnchoringBounds);
-        // matcher.useTransparentBounds(useAnchoringBounds)
-
-        List<Match> list = new ArrayList<Match>();
-        while (matcher.find()) {
-            MatchResult result = matcher.toMatchResult();
-            process(result, list, textToTest);
-        }
-        return list;
+        return matcher;
     }
-
+/*
     private void process(MatchResult result, List<Match> resultList,
             String originalText) {
-        // System.out.println("---------------------");
-        // System.out.println(originalText);
-        // System.out.println("Start: " + result.start());
-        // System.out.println("End: " + result.end());
-        // System.out.println(originalText.substring(result.start(),
-        // result.end()));
-
         int groups = result.groupCount();
         System.out.println("Groups count " + groups);
         if (groups == 0) {
@@ -127,12 +104,10 @@ public class RegexpManager {
                 System.out.println(" End " + result.end());
                 System.out.println(" Start "+i+": " + result.start(i));
                 System.out.println(" End "+i+": " + result.end(i));
-                //
-                // System.out.print(" start: " + start+" end: "+end);
                 System.out.println(" value: " + originalText.substring(result.start(i),result.end(i)));
             }
         }
-    }
+    }*/
 
     public String jakartaRegexpPrecompile(String name) {
         // Create a compiler object
