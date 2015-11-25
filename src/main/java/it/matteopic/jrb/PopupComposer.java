@@ -132,20 +132,20 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
 
         JMenuItem posLookAhed = createItem("Guarda avanti se uguale");
         posLookAhed.setActionCommand("INSERT_(?="+CURSOR_PLACEHOLDER+")");
+        lookaround.add(posLookAhed);
         
         JMenuItem negLookAhed = createItem("Guarda avanti se diverso");
         negLookAhed.setActionCommand("INSERT_(?!"+CURSOR_PLACEHOLDER+")");
+        lookaround.add(negLookAhed);
         
         JMenuItem posLookBehind = createItem("Guarda dietro se uguale");
         posLookBehind.setActionCommand("INSERT_(?<="+CURSOR_PLACEHOLDER+")");
+        lookaround.add(posLookBehind);
 
         JMenuItem negLookBehind = createItem("Guarda dietro se diverso");
         negLookBehind.setActionCommand("INSERT_(?<!"+CURSOR_PLACEHOLDER+")");
-
-        lookaround.add(posLookAhed);
-        lookaround.add(negLookAhed);
-        lookaround.add(posLookBehind);
         lookaround.add(negLookBehind);
+
         return lookaround;
     }
     
@@ -154,24 +154,40 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
 
         JMenuItem lowcaseChars = createItem("Lettere minuscole");
         lowcaseChars.setActionCommand("INSERT_[a-z]");
+        charClasses.add(lowcaseChars);
         
         JMenuItem upcaseChars = createItem("Lettere maiuscole");
         upcaseChars.setActionCommand("INSERT_[A-Z]");
+        charClasses.add(upcaseChars);
         
         JMenuItem allChars = createItem("Qualsiasi carattere");
         allChars.setActionCommand("INSERT_.");
+        charClasses.add(allChars);
 
         JMenuItem digit = createItem("Una cifra [0-9]");
         digit.setActionCommand("INSERT_\\d");
+        charClasses.add(digit);
         
         JMenuItem notDigit = createItem("Non una cifra [^0-9]");
         notDigit.setActionCommand("INSERT_\\D");
-
-        charClasses.add(lowcaseChars);
-        charClasses.add(upcaseChars);
-        charClasses.add(allChars);
-        charClasses.add(digit);
         charClasses.add(notDigit);
+        
+        JMenuItem whitespace = createItem("A whitespace character: [ \\t\\n\\x0B\\f\\r]");
+        whitespace.setActionCommand("INSERT_\\s");
+        charClasses.add(whitespace);
+
+        JMenuItem notWhitespace = createItem("A non-whitespace character: [^\\s]");
+        notWhitespace.setActionCommand("INSERT_\\S");
+        charClasses.add(notWhitespace);
+
+        JMenuItem wordChar = createItem("A word character: [a-zA-Z_0-9]");
+        wordChar.setActionCommand("INSERT_\\w");
+        charClasses.add(wordChar);
+
+        JMenuItem notWordChar = createItem("A non-word character: [^\\w]");
+        notWordChar.setActionCommand("INSERT_\\W");
+        charClasses.add(notWordChar);
+        
         return charClasses;
     }
     
@@ -180,28 +196,36 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
 
         JMenuItem initRow = createItem("Inizio della riga");
         initRow.setActionCommand("INSERT_^");
+        borders.add(initRow);
 
         JMenuItem endRow = createItem("Fine della riga");
         endRow.setActionCommand("INSERT_$");
+        borders.add(endRow);
         
         JMenuItem wordBoundary = createItem("Bordo della parola");
         wordBoundary.setActionCommand("INSERT_\\b");
+        borders.add(wordBoundary);
 
         JMenuItem notWordBoundary = createItem("Bordo di una non-parola");
         notWordBoundary.setActionCommand("INSERT_\\B");
+        borders.add(notWordBoundary);
         
         JMenuItem inputStart = createItem("Inizio del testo");
         inputStart.setActionCommand("INSERT_\\A");
+        borders.add(inputStart);
+
+        JMenuItem endPrevMatch = createItem("Fine della corrispondenza precedente");
+        endPrevMatch.setActionCommand("INSERT_\\G");        
+        borders.add(endPrevMatch);
+
+        JMenuItem inputEndLast = createItem("La fine dell'input ma per la terminazione finale, se presente");
+        inputEndLast.setActionCommand("INSERT_\\Z");
+        borders.add(inputEndLast);
 
         JMenuItem inputEnd = createItem("Fine del testo");
-        inputEnd.setActionCommand("INSERT_\\Z");
-        
-        borders.add(initRow);
-        borders.add(endRow);
-        borders.add(wordBoundary);
-        borders.add(notWordBoundary);
-        borders.add(inputStart);
+        inputEnd.setActionCommand("INSERT_\\z");
         borders.add(inputEnd);
+
         return borders;
     }
 
