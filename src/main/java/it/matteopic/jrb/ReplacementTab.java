@@ -33,19 +33,22 @@ public class ReplacementTab extends RegexpPanel {
      * @param name
      */
     public ReplacementTab(JRegexp b) {
-        super("Sostituisci");
+        super("Replace");
         this.buddy = b;
 
+        StandardPopup sp = new StandardPopup();
         ReplacementPopupComposer rpc = new ReplacementPopupComposer();
         replacementText = new JTextPane();
+        resetStyle(replacementText);
         rpc.install(replacementText);
-        
-        toReplaceText = new JTextPane();
-        replacedText = new JTextPane();
-        replacedText.setEditable(false);
-        StandardPopup sp = new StandardPopup();
 
+        toReplaceText = new JTextPane();
+        resetStyle(toReplaceText);
         sp.install(toReplaceText, true);
+
+        replacedText = new JTextPane();
+        resetStyle(replacedText);
+        replacedText.setEditable(false);
         sp.install(replacedText, true);
 
         JScrollPane replacementScroll = scroll(replacementText, "Regexp di sostituzione");

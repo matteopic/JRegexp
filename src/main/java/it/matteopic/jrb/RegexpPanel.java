@@ -5,10 +5,15 @@
  */
 package it.matteopic.jrb;
 
-import it.matteopic.jrb.core.RegexpManager;
-import it.matteopic.jrb.core.RegexpProcessor;
+import java.awt.Font;
 
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyledDocument;
+
+import it.matteopic.jrb.core.RegexpManager;
+import it.matteopic.jrb.core.RegexpProcessor;
 
 /**
  *
@@ -58,6 +63,15 @@ public abstract class RegexpPanel extends JPanel implements RegexpProcessor {
 
     protected RegexpManager getManager(){
         return manager;
+    }
+
+    protected void resetStyle(JTextPane textPane){
+    	textPane.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+    	SimpleAttributeSet defaultAttributes = new SimpleAttributeSet();
+
+        StyledDocument doc = textPane.getStyledDocument();
+        int length = doc.getLength();
+        doc.setCharacterAttributes(0, length, defaultAttributes, true);
     }
 
 }
