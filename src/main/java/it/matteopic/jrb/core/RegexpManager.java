@@ -166,8 +166,11 @@ public class RegexpManager {
         return matcher.replaceAll(replacement);
     }
 
-
     private Pattern pattern;
 
     private Matcher matcher;
+
+	public String[] split(String input) {
+        return pattern.split(input);
+	}
 }

@@ -24,8 +24,8 @@ public class JakartaRegexpTab extends RegexpPanel {
 
     public JakartaRegexpTab(JRegexp b) {
         super("Jakarta Regexp");
-//        this.buddy = b;
         textPane = new JTextPane();
+        resetStyle(textPane);
         textPane.setEditable(false);
         new StandardPopup().install(textPane, true);
 

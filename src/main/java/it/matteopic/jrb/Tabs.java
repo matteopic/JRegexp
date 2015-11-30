@@ -29,6 +29,7 @@ public class Tabs extends JTabbedPane implements ChangeListener {
         panels.add(new TestTab(buddy));
         panels.add(new JakartaRegexpTab(buddy));
         panels.add(new ReplacementTab(buddy));
+        panels.add(new SplitTab(buddy));
         
         for (RegexpPanel panel : panels) {
             add(panel.getName(), panel);
