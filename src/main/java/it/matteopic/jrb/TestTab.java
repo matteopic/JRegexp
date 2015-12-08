@@ -1,5 +1,7 @@
 package it.matteopic.jrb;
 
+import it.matteopic.jrb.core.RegexpManager;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -8,6 +10,7 @@ import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
@@ -18,12 +21,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Document;
-import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
-import it.matteopic.jrb.core.RegexpManager;
 
 /**
  *
@@ -86,7 +86,7 @@ public class TestTab extends RegexpPanel {
 				+ "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n"
 				+ "0123456789 _+-.,!@#$%^&*();\\/|<>\"'\r\n" + "12345 -98.7 3.141 .6180 9,000 +42\r\n"
 				+ "555.123.4567	+1-(800)-555-2468\r\n" + "foo@demo.net	bar.ba@test.co.uk\r\n"
-				+ "www.demo.com	http://foo.co.uk/\r\n" + "http://regexr.com/foo.html?q=bar");
+				+ "www.demo.com	http://foo.co.uk/\r\n" + "https://github.com/matteopic/JRegexp?param=value");
 		textPane.getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
 		// textPane.setTransferHandler(new FileTransferHandler());
 		Document doc = textPane.getDocument();
@@ -107,7 +107,10 @@ public class TestTab extends RegexpPanel {
 		tools = new JToolBar();
 		tools.setFloatable(false);
 
-		final JToggleButton hilight = new JToggleButton("Hilight");
+		resultLabel = new JLabel();
+		resultLabel.setBorder( BorderFactory.createEmptyBorder(0,10,0,0) );
+
+		final JToggleButton hilight = new JToggleButton("Higlight");
 		hilight.getModel().setSelected(true);
 		hilight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -119,6 +122,7 @@ public class TestTab extends RegexpPanel {
 			}
 		});
 		tools.add(hilight);
+		tools.add(resultLabel);
 
 		Border borderTest = BorderFactory.createTitledBorder("Testing String");
 		setBorder(borderTest);
@@ -146,10 +150,14 @@ public class TestTab extends RegexpPanel {
 		String textToTest = getText();
 		Matcher matcher = manager.startMatching(textToTest);
 
+		int resultCount = 0;
 		for (int i = 0; matcher.find(); i++) {
+			resultCount++;
 			MatchResult result = matcher.toMatchResult();
 			process(i, result);
 		}
+
+		resultLabel.setText( String.format("%s matches", resultCount));
 	}
 
 	public void process(int index, MatchResult result) {
@@ -214,7 +222,7 @@ public class TestTab extends RegexpPanel {
 		return ((color.getRed() * 299) + (color.getGreen() * 587) + (color.getBlue() * 114)) / 1000;
 	}
 
-	private MutableAttributeSet defaultAttributes;
+	private JLabel resultLabel;
 	private JTextPane textPane;
 	private JToolBar tools;
 	private JRegexp buddy;
