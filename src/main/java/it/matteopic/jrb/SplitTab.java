@@ -73,7 +73,8 @@ public class SplitTab extends RegexpPanel {
         String[] split = manager.split(replacement);
         StringBuilder sb = new StringBuilder( replacement.length() );
         for(String line : split){
-        	sb.append(line).append('\n');
+        	if(sb.length() > 0)sb.append('\n');
+        	sb.append(line);
         }
         splitText.setText(sb.toString());
     }
@@ -83,6 +84,9 @@ public class SplitTab extends RegexpPanel {
 
         Border border = BorderFactory.createTitledBorder(label);
         scroll.setBorder(border);
+
+        scroll.setRowHeaderView(new LineNumbers(area));
+
         return scroll;
     }
 
