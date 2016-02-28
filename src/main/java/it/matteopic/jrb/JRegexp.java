@@ -6,6 +6,7 @@
 package it.matteopic.jrb;
 
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -39,7 +40,7 @@ public class JRegexp extends JFrame {
         SwingUtilities.invokeLater(new Runnable(){
             public void run() {
                 initGUI();
-            } 
+            }
         });
     }
 
@@ -51,9 +52,10 @@ public class JRegexp extends JFrame {
         cont.setLayout(new GridBagLayout());
 
         tabbed = new Tabs(this);
-        
+
         //RegexpEditor
         regexpEditor = new JTextPane();
+        regexpEditor.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         regexpEditor.setText("([A-Z])\\w+");
         regexpEditor.getDocument().addDocumentListener(new DocumentListener(){
             public void insertUpdate(DocumentEvent e) { fireRegexpChanged(); }
@@ -101,7 +103,7 @@ public class JRegexp extends JFrame {
             }
         });
         fireRegexpChanged();
-        
+
         ResolutionIndipendence.setCentimeterComponentSize(this, 20, 15);
         //setExtendedState(MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
@@ -136,7 +138,7 @@ public class JRegexp extends JFrame {
 //        }
 //    }
 
-    
+
     private Container getChecks(){
         JPanel checks = new JPanel(new GridBagLayout());
         GridBagConstraints constr = new GridBagConstraints();
@@ -152,7 +154,7 @@ public class JRegexp extends JFrame {
         		"by specifying the UNICODE_CASE flag in conjunction with this flag.</html>");
         checks.add(caseInsensitive, constr);
 
-        
+
         multiline = new JCheckBox("Multiline");
         multiline.setToolTipText(
         		"<html>In multiline mode the expressions ^ and $<br>" +
@@ -160,7 +162,7 @@ public class JRegexp extends JFrame {
         		"a line terminator or the end of the input sequence.<br>" +
         		"By default these expressions only match at the <br>" +
         		"beginning and the end of the entire input sequence.</html>");
-        
+
         checks.add(multiline, constr);
 
         dotall = new JCheckBox("Single-line/Dotall");
@@ -175,12 +177,12 @@ public class JRegexp extends JFrame {
 
         canonEq = new JCheckBox("Canonical equivalence");
         checks.add(canonEq, constr);
-        
+
         useAnchoringBounds = new JCheckBox("Use ^$");
         useAnchoringBounds.setSelected(true);
         checks.add(useAnchoringBounds, constr);
 
-        
+
         Insets defaultInsets = constr.insets;
 
         unix = new JCheckBox("Unix lines");
@@ -194,7 +196,7 @@ public class JRegexp extends JFrame {
 
         comments = new JCheckBox("Allow comments");
         checks.add(comments, constr);
-        
+
         return checks;
     }
 
@@ -218,11 +220,11 @@ public class JRegexp extends JFrame {
     public static void main(String[] args) {
         new JRegexp();
     }
-    
+
     private Tabs tabbed;
     private JTextPane regexpEditor;
-    private JSplitPane split; 
-    
-    private JCheckBox caseInsensitive, multiline, dotall, 
+    private JSplitPane split;
+
+    private JCheckBox caseInsensitive, multiline, dotall,
     unicodeCase, canonEq, unix, comments, useAnchoringBounds;
 }
