@@ -128,6 +128,8 @@ public class TestTab extends RegexpPanel {
 		setBorder(borderTest);
 
 		JScrollPane scroll = new JScrollPane(textPane);
+        scroll.setRowHeaderView(new LineNumbers(textPane));
+
 		setLayout(new BorderLayout());
 		add(tools, BorderLayout.NORTH);
 		add(scroll, BorderLayout.CENTER);

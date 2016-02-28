@@ -91,6 +91,8 @@ public class ReplacementTab extends RegexpPanel {
         
         Border border = BorderFactory.createTitledBorder(label);
         scroll.setBorder(border);
+
+        scroll.setRowHeaderView(new LineNumbers(area));
         return scroll;
     }
     

@@ -67,6 +67,7 @@ public class JRegexp extends JFrame {
         JScrollPane scrollEditor = new JScrollPane(regexpEditor);
         Border borderRegexp = BorderFactory.createTitledBorder("Regular Expression");
         scrollEditor.setBorder(borderRegexp);
+        scrollEditor.setRowHeaderView(new LineNumbers(regexpEditor));
 
         Insets insets = new Insets(5,5,5,5);
         constr = new GridBagConstraints();
