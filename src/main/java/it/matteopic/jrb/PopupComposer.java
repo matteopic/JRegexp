@@ -42,12 +42,12 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
         add( makeBoundary() );
         add( makeLookAround() );
         add(new JSeparator());
-        
+
         sp = new StandardPopup();
         add(sp.createCutMenuItem());
         add(sp.createCopyMenuItem());
         add(sp.createPasteMenuItem());
-        
+
     }
 
     public void install(JTextPane tp){
@@ -65,7 +65,7 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
                 }
             }
         });
-        
+
         textPane.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -76,7 +76,7 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
 						int lineHeight = tp.getFontMetrics(tp.getFont()).getHeight();
 			            Rectangle caretCoords = tp.modelToView(dot);
 						show(tp, (int)caretCoords.getX(), (int)caretCoords.getY() + lineHeight);
-					}catch(BadLocationException ignroed){}	
+					}catch(BadLocationException ignroed){}
 				}
 			}
 			@Override
@@ -84,35 +84,35 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
 			@Override
 			public void keyPressed(KeyEvent e) {}
 		});
-        
+
         sp.install(tp, false);
     }
 
     public JMenu makeCharactersMenu(){
         JMenu characters = new JMenu("Caratteri invisibili");
 
-        JMenuItem tabChar = createItem("Tabulazione");
+        JMenuItem tabChar = createItem("Tabulazione", "\\t");
         tabChar.setActionCommand("INSERT_\\t");
 
-        JMenuItem returnCarrChar = createItem("Return Carriage");
+        JMenuItem returnCarrChar = createItem("Return Carriage", "\\r");
         returnCarrChar.setActionCommand("INSERT_\\r");
 
-        JMenuItem lineFeedChar = createItem("Line Feed");
+        JMenuItem lineFeedChar = createItem("Line Feed", "\\n");
         lineFeedChar.setActionCommand("INSERT_\\n");
 
         JMenuItem windowsEndlLineChar = createItem("CR LF (Fine riga Windows)");
         windowsEndlLineChar.setActionCommand("INSERT_\\r\\n");
 
-        JMenuItem bellChar = createItem("Bell");
+        JMenuItem bellChar = createItem("Bell", "\\a");
         bellChar.setActionCommand("INSERT_\\a");
 
-        JMenuItem escapeChar = createItem("Escape");
+        JMenuItem escapeChar = createItem("Escape", "\\e");
         escapeChar.setActionCommand("INSERT_\\e");
 
-        JMenuItem formFeedChar = createItem("Form Feed");
+        JMenuItem formFeedChar = createItem("Form Feed", "\\f");
         formFeedChar.setActionCommand("INSERT_\\f");
 
-        JMenuItem verticalTabChar = createItem("Vertical Tab");
+        JMenuItem verticalTabChar = createItem("Vertical Tab", "\\v");
         verticalTabChar.setActionCommand("INSERT_\\v");
 
         characters.add(tabChar);
@@ -130,36 +130,36 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
     public JMenu makeLookAround(){
         JMenu lookaround = new JMenu("Guardati intorno");
 
-        JMenuItem posLookAhed = createItem("Guarda avanti se uguale");
+        JMenuItem posLookAhed = createItem("Guarda avanti se uguale", "(?=)");
         posLookAhed.setActionCommand("INSERT_(?="+CURSOR_PLACEHOLDER+")");
         lookaround.add(posLookAhed);
-        
-        JMenuItem negLookAhed = createItem("Guarda avanti se diverso");
+
+        JMenuItem negLookAhed = createItem("Guarda avanti se diverso", "(?!)");
         negLookAhed.setActionCommand("INSERT_(?!"+CURSOR_PLACEHOLDER+")");
         lookaround.add(negLookAhed);
-        
-        JMenuItem posLookBehind = createItem("Guarda dietro se uguale");
+
+        JMenuItem posLookBehind = createItem("Guarda dietro se uguale", "(?<=)");
         posLookBehind.setActionCommand("INSERT_(?<="+CURSOR_PLACEHOLDER+")");
         lookaround.add(posLookBehind);
 
-        JMenuItem negLookBehind = createItem("Guarda dietro se diverso");
+        JMenuItem negLookBehind = createItem("Guarda dietro se diverso", "(?<!)");
         negLookBehind.setActionCommand("INSERT_(?<!"+CURSOR_PLACEHOLDER+")");
         lookaround.add(negLookBehind);
 
         return lookaround;
     }
-    
+
     public JMenu makeCharactersClass(){
         JMenu charClasses = new JMenu("Classi di caratteri");
 
         JMenuItem lowcaseChars = createItem("Lettere minuscole");
         lowcaseChars.setActionCommand("INSERT_[a-z]");
         charClasses.add(lowcaseChars);
-        
+
         JMenuItem upcaseChars = createItem("Lettere maiuscole");
         upcaseChars.setActionCommand("INSERT_[A-Z]");
         charClasses.add(upcaseChars);
-        
+
         JMenuItem allChars = createItem("Qualsiasi carattere");
         allChars.setActionCommand("INSERT_.");
         charClasses.add(allChars);
@@ -167,11 +167,11 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
         JMenuItem digit = createItem("Una cifra [0-9]");
         digit.setActionCommand("INSERT_\\d");
         charClasses.add(digit);
-        
+
         JMenuItem notDigit = createItem("Non una cifra [^0-9]");
         notDigit.setActionCommand("INSERT_\\D");
         charClasses.add(notDigit);
-        
+
         JMenuItem whitespace = createItem("A whitespace character: [ \\t\\n\\x0B\\f\\r]");
         whitespace.setActionCommand("INSERT_\\s");
         charClasses.add(whitespace);
@@ -187,42 +187,42 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
         JMenuItem notWordChar = createItem("A non-word character: [^\\w]");
         notWordChar.setActionCommand("INSERT_\\W");
         charClasses.add(notWordChar);
-        
+
         return charClasses;
     }
-    
+
     public JMenu makeBoundary(){
         JMenu borders = new JMenu("Bordi");
 
-        JMenuItem initRow = createItem("Inizio della riga");
+        JMenuItem initRow = createItem("Inizio della riga", "^");
         initRow.setActionCommand("INSERT_^");
         borders.add(initRow);
 
-        JMenuItem endRow = createItem("Fine della riga");
+        JMenuItem endRow = createItem("Fine della riga $");
         endRow.setActionCommand("INSERT_$");
         borders.add(endRow);
-        
-        JMenuItem wordBoundary = createItem("Bordo della parola");
+
+        JMenuItem wordBoundary = createItem("Bordo della parola \\b");
         wordBoundary.setActionCommand("INSERT_\\b");
         borders.add(wordBoundary);
 
-        JMenuItem notWordBoundary = createItem("Bordo di una non-parola");
+        JMenuItem notWordBoundary = createItem("Bordo di una non-parola \\B");
         notWordBoundary.setActionCommand("INSERT_\\B");
         borders.add(notWordBoundary);
-        
-        JMenuItem inputStart = createItem("Inizio del testo");
+
+        JMenuItem inputStart = createItem("Inizio del testo \\A");
         inputStart.setActionCommand("INSERT_\\A");
         borders.add(inputStart);
 
-        JMenuItem endPrevMatch = createItem("Fine della corrispondenza precedente");
-        endPrevMatch.setActionCommand("INSERT_\\G");        
+        JMenuItem endPrevMatch = createItem("Fine della corrispondenza precedente \\G");
+        endPrevMatch.setActionCommand("INSERT_\\G");
         borders.add(endPrevMatch);
 
-        JMenuItem inputEndLast = createItem("La fine dell'input ma per la terminazione finale, se presente");
+        JMenuItem inputEndLast = createItem("La fine dell'input ma per la terminazione finale, se presente \\Z");
         inputEndLast.setActionCommand("INSERT_\\Z");
         borders.add(inputEndLast);
 
-        JMenuItem inputEnd = createItem("Fine del testo");
+        JMenuItem inputEnd = createItem("Fine del testo \\z");
         inputEnd.setActionCommand("INSERT_\\z");
         borders.add(inputEnd);
 
@@ -279,13 +279,20 @@ public class PopupComposer extends JPopupMenu implements ActionListener {
             }
         }
     }
-    
+
     public JMenuItem createItem(String label){
         JMenuItem item = new JMenuItem(label);
         item.addActionListener(this);
         return item;
     }
-    
+
+    public JMenuItem createItem(String label, String c){
+//    	StringIcon si = new StringIcon(c);
+        JMenuItem item = new JMenuItem(label);
+        item.addActionListener(this);
+        return item;
+    }
+
     private String escapeText(CharSequence txt){
     	StringBuilder sb = new StringBuilder();
     	int length = txt.length();

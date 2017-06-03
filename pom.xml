@@ -3,24 +3,24 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.matteopic.jregexp</groupId>
 	<artifactId>jregexp</artifactId>
-	<version>0.3.1-SNAPSHOT</version>
-	<scm>
-		<developerConnection>scm:git:file:../</developerConnection>
-	</scm>
+	<version>0.4.0-SNAPSHOT</version>
+	
+	<parent>
+        <groupId>it.matteopic</groupId>
+        <artifactId>root-pom</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <scm>
+        <developerConnection>scm:git:file:///${project.basedir}/.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
 	<properties>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
-	<distributionManagement>
-		<repository>
-			<uniqueVersion>false</uniqueVersion>
-			<id>ftp-matteopic.it-release</id>
-			<url>ftp://www.matteopic.it/httpdocs/repository/release</url>
-			<layout>default</layout>
-		</repository>
-	</distributionManagement>
 
 	<repositories>
 		<repository>
@@ -35,6 +35,14 @@
 			<artifactId>jakarta-regexp</artifactId>
 			<version>1.4</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/net.amygdalum/regexparser -->
+		<dependency>
+		    <groupId>net.amygdalum</groupId>
+		    <artifactId>regexparser</artifactId>
+		    <version>0.0.4-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -67,17 +75,10 @@
 						<id>copy</id>
 						<phase>package</phase>
 						<goals>
-							<goal>copy</goal>
+							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>jakarta-regexp</groupId>
-									<artifactId>jakarta-regexp</artifactId>
-									<version>1.4</version>
-									<outputDirectory>${project.build.directory}</outputDirectory>
-								</artifactItem>
-							</artifactItems>
+						    <outputDirectory>${project.build.directory}</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>

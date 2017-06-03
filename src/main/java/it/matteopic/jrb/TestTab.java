@@ -1,6 +1,10 @@
 package it.matteopic.jrb;
 
 import it.matteopic.jrb.core.RegexpManager;
+import it.matteopic.jrb.tree.RegexTree;
+import net.amygdalum.regexparser.EmptyNode;
+import net.amygdalum.regexparser.RegexNode;
+import net.amygdalum.regexparser.RegexParser;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,6 +16,7 @@ import java.util.regex.Matcher;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
@@ -32,49 +37,9 @@ import javax.swing.text.StyledDocument;
 public class TestTab extends RegexpPanel {
 
 	private static final long serialVersionUID = 3257852069162530866L;
+	private RegexTree tree;
 
-	// http://www.google.com/design/spec/style/color.html#color-color-palette
-	private Color[] colors500 = new Color[] { new Color(0xF44336), // Red
-			new Color(0xE91E63), // Pink
-			new Color(0x9C27B0), // Purple
-			new Color(0x673AB7), // Deep Purple
-			new Color(0x3F51B5), // Indigo
-			new Color(0x2196F3), // Blue
-			new Color(0x03A9F4), // Light Blue
-			new Color(0x00BCD4), // Cyan
-			new Color(0x009688), // Teal
-			new Color(0x4CAF50), // Green
-			new Color(0x8BC34A), // Light Green
-			new Color(0x8BC34A), // Lime
-			new Color(0xFFEB3B), // Yellow
-			new Color(0xFFC107), // Amber
-			new Color(0xFF9800), // Orange
-			new Color(0xFF5722), // Deep Orange
-			new Color(0x795548), // Brown
-			new Color(0x9E9E9E), // Grey
-			new Color(0x607D8B), // Blue Grey
-	};
-
-	private Color[] colors900 = new Color[] { new Color(0xB71C1C), // Red
-			new Color(0x880E4F), // Pink
-			new Color(0x4A148C), // Purple
-			new Color(0x311B92), // Deep Purple
-			new Color(0x1A237E), // Indigo
-			new Color(0x0D47A1), // Blue
-			new Color(0x01579B), // Light Blue
-			new Color(0x006064), // Cyan
-			new Color(0x004D40), // Teal
-			new Color(0x1B5E20), // Green
-			new Color(0x33691E), // Light Green
-			new Color(0x827717), // Lime
-			new Color(0xF57F17), // Yellow
-			new Color(0xFF6F00), // Amber
-			new Color(0xE65100), // Orange
-			new Color(0xBF360C), // Deep Orange
-			new Color(0x3E2723), // Brown
-			new Color(0x212121), // Grey
-			new Color(0x263238), // Blue Grey
-	};
+	
 
 	public TestTab(JRegexp b) {
 		super("Test");
@@ -129,10 +94,15 @@ public class TestTab extends RegexpPanel {
 
 		JScrollPane scroll = new JScrollPane(textPane);
         scroll.setRowHeaderView(new LineNumbers(textPane));
-
+        
+        tree = new RegexTree(new EmptyNode());
+        JScrollPane scrollTree = new JScrollPane(tree);
+        JSplitPane bottomSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollTree, scroll);
+        bottomSplit.setDividerLocation(150);
+        
 		setLayout(new BorderLayout());
 		add(tools, BorderLayout.NORTH);
-		add(scroll, BorderLayout.CENTER);
+		add(bottomSplit, BorderLayout.CENTER);
 	}
 
 	public void setText(String txt) {
@@ -160,6 +130,10 @@ public class TestTab extends RegexpPanel {
 		}
 
 		resultLabel.setText( String.format("%s matches", resultCount));
+		
+		RegexParser parser = new RegexParser(regexp);
+		RegexNode node = parser.parse();
+		tree.set(node);
 	}
 
 	public void process(int index, MatchResult result) {
@@ -194,9 +168,9 @@ public class TestTab extends RegexpPanel {
 	}
 
 	private AttributeSet getAttributeForMatch(int groupIndex) {
-		int colorIndex = groupIndex % colors500.length;
-		Color color = colors500[colorIndex];
-		double b = getBrightness(color);
+		int colorIndex = groupIndex % Colors.colors500.length;
+		Color color = Colors.colors500[colorIndex];
+		double b = Colors.getBrightness(color);
 
 		SimpleAttributeSet sas = new SimpleAttributeSet();
 		sas.addAttribute(StyleConstants.ColorConstants.Background, color);
@@ -205,9 +179,9 @@ public class TestTab extends RegexpPanel {
 	}
 
 	private AttributeSet getAttributeForGroup(int groupIndex) {
-		int colorIndex = groupIndex % colors900.length;
-		Color color = colors900[colorIndex];
-		double b = getBrightness(color);
+		int colorIndex = groupIndex % Colors.colors900.length;
+		Color color = Colors.colors900[colorIndex];
+		double b = Colors.getBrightness(color);
 
 		SimpleAttributeSet sas = new SimpleAttributeSet();
 		sas.addAttribute(StyleConstants.ColorConstants.Background, color);
@@ -220,9 +194,6 @@ public class TestTab extends RegexpPanel {
 		return sas;
 	}
 
-	private double getBrightness(Color color) {
-		return ((color.getRed() * 299) + (color.getGreen() * 587) + (color.getBlue() * 114)) / 1000;
-	}
 
 	private JLabel resultLabel;
 	private JTextPane textPane;
